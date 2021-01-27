@@ -1,9 +1,13 @@
-import styled from "styled-components";
-import db from "../db.json";
-import Widget from "../src/components/Widget";
-import Footer from "../src/components/Footer";
-import QuizBackground from "../src/components/QuizBackground";
-import GitHubCorner from "../src/components/GitHubCorner";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+
+import db from '../db.json';
+import Widget from '../src/components/Widget';
+import Footer from '../src/components/Footer';
+import QuizBackground from '../src/components/QuizBackground';
+import GitHubCorner from '../src/components/GitHubCorner';
 
 export const QuizContainer = styled.div`
   width: 100%;
@@ -17,17 +21,43 @@ export const QuizContainer = styled.div`
 `;
 
 export default function Home() {
+  const router = useRouter();
+  const [name, setName] = useState('');
+
   return (
     <QuizBackground backgroundImage={db.bg}>
+      <Head>
+        <title>AluraQuiz</title>
+      </Head>
       <QuizContainer>
         <Widget>
           <Widget.Header>
             <h1>The legend of zelda</h1>
           </Widget.Header>
           <Widget.Content>
+            <form
+              onSubmit={function (event) {
+                event.preventDefault();
 
-            <p>lorem ipsum dolot sit amet...</p>
+                router.push(`/quiz?name=${name}`);
 
+                console.log('Fazendo uma submissão por meio do react');
+
+                // router manda para a próxima página
+              }}
+            >
+              <input
+                onChange={function (event) {
+                  setName(event.target.value);
+                }}
+                placeholder="Diz ai seu nome"
+              />
+              <button type="submit" disabled={!name}>
+                Jogar
+                {' '}
+                {name}
+              </button>
+            </form>
           </Widget.Content>
         </Widget>
 
@@ -40,7 +70,7 @@ export default function Home() {
         </Widget>
         <Footer />
       </QuizContainer>
-      <GitHubCorner projectUrl=""/>
+      <GitHubCorner projectUrl="" />
     </QuizBackground>
   );
 }
