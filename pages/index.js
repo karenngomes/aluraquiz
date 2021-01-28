@@ -8,6 +8,8 @@ import Widget from '../src/components/Widget';
 import Footer from '../src/components/Footer';
 import QuizBackground from '../src/components/QuizBackground';
 import GitHubCorner from '../src/components/GitHubCorner';
+import Input from '../src/components/Input';
+import Button from '../src/components/Button';
 
 export const QuizContainer = styled.div`
   width: 100%;
@@ -40,23 +42,17 @@ export default function Home() {
                 event.preventDefault();
 
                 router.push(`/quiz?name=${name}`);
-
-                console.log('Fazendo uma submissão por meio do react');
-
-                // router manda para a próxima página
               }}
             >
-              <input
-                onChange={function (event) {
-                  setName(event.target.value);
-                }}
+              <Input
+                name="nomeDoUsuario"
+                onChange={(event) => setName(event.target.value)}
                 placeholder="Diz ai seu nome"
+                value={name}
               />
-              <button type="submit" disabled={!name}>
-                Jogar
-                {' '}
-                {name}
-              </button>
+              <Button type="submit" disabled={!name}>
+                {`Jogar ${name}`}
+              </Button>
             </form>
           </Widget.Content>
         </Widget>
